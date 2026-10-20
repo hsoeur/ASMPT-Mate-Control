@@ -1,0 +1,174 @@
+<Window x:Class="LO_ASM_MATE_CONTROL.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LO_ASM_MATE_CONTROL"
+        mc:Ignorable="d"
+        Title="LO ASM MATE CONTROL" Height="760" Width="1180"
+        WindowStartupLocation="CenterScreen"
+        MinHeight="620" MinWidth="940">
+
+    <Grid Background="{StaticResource IndustrialWindowBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="248"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Background="{StaticResource IndustrialSideBrush}"
+                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                BorderThickness="0,0,1,0">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="16,18,16,14">
+                    <Image Source="../../Resources/Images/logo.jpg"
+                           Height="58"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,12"/>
+                    <TextBlock Text="LO ASM MATE CONTROL"
+                               FontWeight="Bold"
+                               FontSize="15"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Pilotage stock ASMPT"
+                               Foreground="{StaticResource IndustrialMutedBrush}"
+                               FontSize="12"
+                               TextAlignment="Center"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <TextBlock DockPanel.Dock="Bottom"
+                           Text="v2.1.0"
+                           FontSize="11"
+                           Foreground="{StaticResource IndustrialMutedBrush}"
+                           HorizontalAlignment="Center"
+                           Margin="0,10"/>
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="14,0,14,14">
+                        <TextBlock Text="MODULES"
+                                   FontWeight="Bold"
+                                   FontSize="11"
+                                   Foreground="{StaticResource IndustrialMutedBrush}"
+                                   Margin="0,0,0,8"/>
+
+                        <Button Content="Accueil"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding NavigateToHomeViewModel}"
+                                ToolTip="Affiche la page d'accueil de l'application."/>
+
+                        <Button Content="Consulter les bobines"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding NavigateToPackagingUnitManagementViewModel}"
+                                ToolTip="Ouvre l'ecran de consultation et de gestion des bobines issues de la base ASMPT."/>
+
+                        <Button Content="Visualiser la base ASMPT"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding NavigateToAsmVisualizationDatabaseViewModel}"
+                                ToolTip="Affiche les donnees de la base ASMPT afin de visualiser l'etat du stock et des composants."/>
+
+                        <Button Content="Rechercher un article"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding SearchArticleQuantityCommand}"
+                                ToolTip="Ouvre une fenetre de recherche pour retrouver un article et consulter les quantites associees."/>
+
+                        <Button Content="Sortir stock sous-traitance"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding NavigateToExitSubContractingViewModel}"
+                                ToolTip="Ouvre l'ecran permettant de traiter les sorties de stock liees a la sous-traitance."/>
+
+                        <Separator Margin="0,14,0,12"/>
+
+                        <TextBlock Text="ACTIONS STOCK"
+                                   FontWeight="Bold"
+                                   FontSize="11"
+                                   Foreground="{StaticResource IndustrialMutedBrush}"
+                                   Margin="0,0,0,8"/>
+
+                        <Button Content="Generer fichier emplacements"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding UpdateWarehouseCommand}">
+                            <Button.ToolTip>
+                                <ToolTip MaxWidth="420">
+                                    <TextBlock TextWrapping="Wrap"
+                                               Text="Genere le fichier XML des emplacements magasin a partir des donnees deja presentes dans la base ASMPT. L'action lit les bobines, recupere leur emplacement depuis le champ Extra1, ignore celles qui ont un champ Extra2 renseigne, puis cree ou remplace D:\WarehouseStockLocation\StockLocation_Horizon.xml. Cette action ne modifie pas la base de donnees."/>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
+
+                        <Button Content="Mettre a jour emplacements"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding UpdateStoreLocationCommand}">
+                            <Button.ToolTip>
+                                <ToolTip MaxWidth="420">
+                                    <TextBlock TextWrapping="Wrap"
+                                               Text="Met a jour les emplacements magasin dans la base ASMPT. L'action recupere les articles et leurs magasins depuis l'API GPAO, puis met a jour le champ Extra1 des bobines ASMPT dont le code composant correspond. Cette action modifie la base de donnees, mais ne genere pas le fichier XML."/>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
+
+                        <Button Content="Sortir Feuille Inventaire"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding GenerateGPAOStockCommand}">
+                            <Button.ToolTip>
+                                <ToolTip MaxWidth="420">
+                                    <TextBlock TextWrapping="Wrap"
+                                               Text="Genere INV_CMS.CSV uniquement pour les codes articles presents dans ASMPT et dans la GPAO, sans lire le precedent fichier. Les references absentes de la GPAO sont ignorees sans erreur. Seules les bobines sans UID DMY, sans stock client (Extra2 vide) et dont le magasin ASMPT (Extra1) commence par G, C6, C7 ou C8 sont retenues. Un article sans bobine admissible est exclu. La designation, l'emplacement et le stock GPAO proviennent de l'API. La quantite d'inventaire est le minimum entre les stocks ASMPT et GPAO."/>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
+
+                        <Button Content="Exporter stock par article"
+                                Visibility="Collapsed"
+                                Margin="0,0,0,6"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding ExportTotalQuantitiesCommand}">
+                            <Button.ToolTip>
+                                <ToolTip MaxWidth="420">
+                                    <TextBlock TextWrapping="Wrap"
+                                               Text="Exporte un fichier StockByArticle.csv contenant le total des quantites par article. L'action regroupe toutes les bobines de la base ASMPT par code article, additionne leurs quantites, puis ecrit le resultat dans un fichier CSV."/>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="42"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0"
+                    Background="{StaticResource IndustrialPanelBrush}"
+                    BorderBrush="{StaticResource IndustrialBorderBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="18,0">
+                <DockPanel LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Right"
+                               Text="ASMPT / GPAO / STOCK"
+                               Foreground="{StaticResource IndustrialMutedBrush}"
+                               FontSize="11"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Console de controle industriel"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                </DockPanel>
+            </Border>
+
+            <ContentControl Grid.Row="1"
+                            Content="{Binding NavigationService.CurrentViewModel}"/>
+        </Grid>
+    </Grid>
+</Window>

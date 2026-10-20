@@ -1,0 +1,169 @@
+<UserControl x:Class="LO_ASM_MATE_CONTROL.MVVM.Views.PackagingUnitManagementView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LO_ASM_MATE_CONTROL.MVVM.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="560" d:DesignWidth="920">
+    <Grid Background="{StaticResource IndustrialWindowBrush}" Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="{StaticResource IndustrialPanelBrush}"
+                BorderBrush="{StaticResource IndustrialBorderBrush}"
+                BorderThickness="1"
+                Padding="14"
+                Margin="0,0,0,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Scan bobine"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           Margin="0,0,12,0"/>
+                <TextBox Grid.Column="1"
+                         Text="{Binding RealScan, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                         KeyDown="TextBox_KeyDown"
+                         MinHeight="36"
+                         FontSize="15"/>
+                <TextBlock Grid.Column="2"
+                           Text="ENTREE pour lire"
+                           Foreground="{StaticResource IndustrialMutedBrush}"
+                           FontSize="11"
+                           VerticalAlignment="Center"
+                           Margin="12,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.05*"/>
+                <ColumnDefinition Width="1.15*"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="0"
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="0,0,14,0">
+                    <GroupBox Header="Identification bobine">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="Package UID" Grid.Row="0" Grid.Column="0" Margin="0,0,12,8"/>
+                            <TextBox Text="{Binding PuUid, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,8"/>
+
+                            <Label Content="Code composant" Grid.Row="1" Grid.Column="0" Margin="0,0,12,8"/>
+                            <TextBox Text="{Binding PuCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,8"/>
+
+                            <Label Content="Nom composant" Grid.Row="2" Grid.Column="0" Margin="0,0,12,8"/>
+                            <TextBox Text="{Binding PuCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Margin="0,0,0,8"/>
+
+                            <Label Content="Quantite origine" Grid.Row="3" Grid.Column="0" Margin="0,0,12,8"/>
+                            <TextBox Text="{Binding PuOriginalQuantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="3" Grid.Column="1" Margin="0,0,0,8"/>
+
+                            <Label Content="Quantite bobine" Grid.Row="4" Grid.Column="0" Margin="0,0,12,8"/>
+                            <TextBox Text="{Binding PuQuantity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" Margin="0,0,0,8"/>
+
+                            <Label Content="Magasin" Grid.Row="5" Grid.Column="0" Margin="0,0,12,8"/>
+                            <TextBox Text="{Binding PuMagasin, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Margin="0,0,0,8"/>
+
+                            <Label Content="Client" Grid.Row="6" Grid.Column="0" Margin="0,0,12,0"/>
+                            <TextBox Text="{Binding PuClient, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="6" Grid.Column="1"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Header="Commandes bobine">
+                        <UniformGrid Columns="2" Rows="2">
+                            <Button Content="Lire"
+                                    Margin="0,0,6,6"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Command="{Binding ReadPackagingUnitCommand}"/>
+                            <Button Content="Creer"
+                                    Margin="6,0,0,6"
+                                    Command="{Binding CreatePackagingUnitCommnd}"/>
+                            <Button Content="Mettre a jour"
+                                    Margin="0,6,6,0"
+                                    Command="{Binding UpdatePackagingUnitCommnd}"/>
+                            <Button Content="Supprimer"
+                                    Margin="6,6,0,0"
+                                    Style="{StaticResource DangerButtonStyle}"
+                                    Command="{Binding DeletePackagingUnitCommnd}"/>
+                        </UniformGrid>
+                    </GroupBox>
+
+                    <GroupBox Header="Mise a jour magasin par article">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Content="Code article" Grid.Row="0" Grid.Column="0" Margin="0,0,12,8"/>
+                            <TextBox Text="{Binding ArticleCodeToUpdate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     Grid.Row="0"
+                                     Grid.Column="1"
+                                     Margin="0,0,0,8"/>
+
+                            <Label Content="Nouveau magasin" Grid.Row="1" Grid.Column="0" Margin="0,0,12,10"/>
+                            <TextBox Text="{Binding NewMagasin, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     Grid.Row="1"
+                                     Grid.Column="1"
+                                     Margin="0,0,0,10"/>
+
+                            <Button Content="Appliquer au code article"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Right"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Command="{Binding UpdateArticleMagasinCommand}"/>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+            </ScrollViewer>
+
+            <GroupBox Grid.Column="1"
+                      Header="Journal operationnel"
+                      Margin="0">
+                <Grid>
+                    <ScrollViewer x:Name="ScrollViewerLog"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto">
+                        <TextBox x:Name="LogPannelTextBox"
+                                 Text="{Binding LogPannel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="True"
+                                 FontFamily="Consolas"
+                                 FontSize="12"
+                                 Foreground="#EAF2F6"
+                                 Background="{StaticResource IndustrialLogBrush}"
+                                 BorderBrush="{StaticResource IndustrialLogBrush}"
+                                 TextChanged="LogPannelTextBox_TextChanged"/>
+                    </ScrollViewer>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

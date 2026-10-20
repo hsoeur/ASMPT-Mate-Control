@@ -1,0 +1,151 @@
+<Application x:Class="LO_ASM_MATE_CONTROL.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:LO_ASM_MATE_CONTROL"
+             xmlns:views="clr-namespace:LO_ASM_MATE_CONTROL.MVVM.Views"
+             xmlns:viewsModels="clr-namespace:LO_ASM_MATE_CONTROL.MVVM.ViewModels">
+    <Application.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="IndustrialWindowBrush" Color="#F3F5F6"/>
+            <SolidColorBrush x:Key="IndustrialPanelBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="IndustrialSideBrush" Color="#E8ECEF"/>
+            <SolidColorBrush x:Key="IndustrialBorderBrush" Color="#C8D0D6"/>
+            <SolidColorBrush x:Key="IndustrialTextBrush" Color="#1D252C"/>
+            <SolidColorBrush x:Key="IndustrialMutedBrush" Color="#5D6973"/>
+            <SolidColorBrush x:Key="IndustrialAccentBrush" Color="#0F6C81"/>
+            <SolidColorBrush x:Key="IndustrialAccentDarkBrush" Color="#0A5262"/>
+            <SolidColorBrush x:Key="IndustrialDangerBrush" Color="#A43C3C"/>
+            <SolidColorBrush x:Key="IndustrialFieldBrush" Color="#FBFCFC"/>
+            <SolidColorBrush x:Key="IndustrialLogBrush" Color="#101820"/>
+
+            <Style TargetType="{x:Type Window}">
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Background" Value="{StaticResource IndustrialWindowBrush}"/>
+            </Style>
+
+            <Style TargetType="{x:Type UserControl}">
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Background" Value="{StaticResource IndustrialWindowBrush}"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}"/>
+            </Style>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="{StaticResource IndustrialMutedBrush}"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="MinHeight" Value="30"/>
+                <Setter Property="Padding" Value="8,5"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Background" Value="{StaticResource IndustrialFieldBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="SelectionBrush" Value="{StaticResource IndustrialAccentBrush}"/>
+            </Style>
+
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="MinHeight" Value="32"/>
+                <Setter Property="Padding" Value="12,6"/>
+                <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}"/>
+                <Setter Property="Background" Value="#F7F9FA"/>
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="ButtonBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="4">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#EEF3F5"/>
+                                    <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource IndustrialAccentBrush}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ButtonBorder" Property="Background" Value="#DDE8EC"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.55"/>
+                                    <Setter Property="Cursor" Value="Arrow"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="PrimaryButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="{StaticResource IndustrialAccentBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialAccentDarkBrush}"/>
+            </Style>
+
+            <Style x:Key="DangerButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="{StaticResource IndustrialDangerBrush}"/>
+                <Setter Property="BorderBrush" Value="#7F2F2F"/>
+            </Style>
+
+            <Style TargetType="{x:Type GroupBox}">
+                <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Margin" Value="0,0,0,12"/>
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}"/>
+                <Setter Property="Background" Value="{StaticResource IndustrialPanelBrush}"/>
+            </Style>
+
+            <Style TargetType="{x:Type DataGrid}">
+                <Setter Property="Background" Value="{StaticResource IndustrialPanelBrush}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+                <Setter Property="HorizontalGridLinesBrush" Value="#E1E6EA"/>
+                <Setter Property="RowBackground" Value="White"/>
+                <Setter Property="AlternatingRowBackground" Value="#F7F9FA"/>
+                <Setter Property="HeadersVisibility" Value="Column"/>
+                <Setter Property="CanUserAddRows" Value="False"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="AutoGenerateColumns" Value="True"/>
+            </Style>
+
+            <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="Background" Value="#E8ECEF"/>
+                <Setter Property="Foreground" Value="{StaticResource IndustrialTextBrush}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Padding" Value="8,6"/>
+                <Setter Property="BorderBrush" Value="{StaticResource IndustrialBorderBrush}"/>
+            </Style>
+
+            <DataTemplate DataType="{x:Type viewsModels:PackagingUnitManagementViewModel}">
+                <views:PackagingUnitManagementView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewsModels:AsmVisualizationDatabaseViewModel}">
+                <views:AsmVisualizationDatabaseView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewsModels:HomeViewModel}">
+                <views:HomeView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewsModels:ExitSubContractingViewModel}">
+                <views:ExitSubContratcingView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
